@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo 'Checking out code from the repository...'
                 checkout scm
             }
         }
@@ -12,21 +11,24 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                sh './test4/mvnw clean install'  // Adjusted path to mvnw in the test4 folder
+                dir('test4') {
+                    sh './mvnw clean install'
+                }
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                sh './test4/mvnw test'  // Adjusted path to mvnw for running tests
+                dir('test4') {
+                    sh './mvnw test'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
-                // Add your deployment steps here
+                echo 'Deploying the project...'
             }
         }
     }
@@ -35,14 +37,11 @@ pipeline {
         always {
             echo 'Cleaning up...'
         }
-
         success {
-            echo 'Build succeeded!'
+            echo 'Build successful!'
         }
-
         failure {
             echo 'Build failed!'
         }
     }
 }
-
