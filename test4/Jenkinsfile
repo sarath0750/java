@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out code from the repository...'
+                checkout scm
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+                sh './test4/mvnw clean install'  // Adjusted path to mvnw in the test4 folder
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh './test4/mvnw test'  // Adjusted path to mvnw for running tests
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                // Add your deployment steps here
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Cleaning up...'
+        }
+
+        success {
+            echo 'Build succeeded!'
+        }
+
+        failure {
+            echo 'Build failed!'
+        }
+    }
+}
+
