@@ -1,41 +1,45 @@
 pipeline {
-    agent any  // Correct syntax for specifying an agent
+    agent any
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/sarath0750/java.git', branch: 'main' // Specify branch if necessary
+                echo 'Checking out the code from the repository...'
+                // Checkout the repository (Jenkins automatically checks out code by default)
+                checkout scm
             }
         }
-        
+
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                sh './mvnw clean install'  // Ensure `mvnw` is executable in your repo
+                // Run the Maven build using the wrapper in the 'test4' folder
+                sh './test4/mvnw clean install'  // Adjusted path to mvnw in the test4 folder
             }
         }
-        
+
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                sh './mvnw test'  // Runs the tests
+                echo 'Running unit tests...'
+                // Add test commands if you want to run tests
+                sh './test4/mvnw test'  // Example test command, adjust as needed
             }
         }
-        
+
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                // Add your deploy commands here
+                // Add deployment steps here if needed (e.g., deploy to a server or cloud)
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline executed successfully!'
+            echo 'Build completed successfully!'
         }
         failure {
-            echo 'Pipeline execution failed!'
+            echo 'Build failed. Check the logs for more details.'
         }
     }
 }
