@@ -12,11 +12,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                // Debugging: print the current working directory
-                sh 'pwd'
-                // Debugging: list contents of the test4 folder to confirm mvnw is there
+                // List contents of test4 to confirm mvnw is found
                 sh 'ls -l ./test4'
-                // Run the Maven build using the wrapper in the 'test4' folder
+                // Run Maven build using the wrapper in the 'test4' folder
                 sh './test4/mvnw clean install'
             }
         }
@@ -24,8 +22,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                // Example test command
-                sh './test4/mvnw test'
+                sh './test4/mvnw test'  // Adjust this based on your project
             }
         }
 
