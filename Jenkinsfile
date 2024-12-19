@@ -5,7 +5,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Checking out the code from the repository...'
-                // Checkout the repository (Jenkins automatically checks out code by default)
                 checkout scm
             }
         }
@@ -13,23 +12,26 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building the project...'
+                // Debugging: print the current working directory
+                sh 'pwd'
+                // Debugging: list contents of the test4 folder to confirm mvnw is there
+                sh 'ls -l ./test4'
                 // Run the Maven build using the wrapper in the 'test4' folder
-                sh './test4/mvnw clean install'  // Adjusted path to mvnw in the test4 folder
+                sh './test4/mvnw clean install'
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running unit tests...'
-                // Add test commands if you want to run tests
-                sh './test4/mvnw test'  // Example test command, adjust as needed
+                // Example test command
+                sh './test4/mvnw test'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying the application...'
-                // Add deployment steps here if needed (e.g., deploy to a server or cloud)
             }
         }
     }
