@@ -1,161 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
-// Your local changes
-=======
-// Changes from the remote repository
->>>>>>> origin/main
+xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.swiffylabs</groupId>
-  <artifactId>java-app</artifactId>
-  <version>1.0</version>
-  <packaging>jar</packaging>
-
-  <name>Java Application</name>
-  <description>A simple Spring Boot Java application</description>
-
-  <properties>
-    <java.version>17</java.version>  <!-- Java version -->
-    <spring-boot.version>2.7.6</spring-boot.version> <!-- Spring Boot version -->
-  </properties>
-
-  <dependencies>
-    <!-- Spring Boot Starter Web (for building web applications) -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-
-    <!-- Spring Boot Starter Test (for testing support) -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- Spring Boot Starter Data JPA (for database access) -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-
-    <!-- H2 Database (in-memory database for development and testing) -->
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-
-    <!-- Spring Boot Starter Security (optional, for adding security features) -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-    </dependency>
-
-  </dependencies>
-
-  <build>
-    <plugins>
-      <!-- Spring Boot Maven Plugin for building and running the application -->
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${spring-boot.version}</version>
-      </plugin>
-
-      <!-- Maven plugin for compiling Java code -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.8.1</version>
-        <configuration>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-
-  <distributionManagement>
-    <repository>
-      <id>nexus-release</id>
-      <url>http://192.168.2.255:8081/repository/maven-releases/</url>
-    </repository>
-  </distributionManagement>
-
-  <scm>
-    <url>https://github.com/sarath0750/java.git</url>
-    <connection>scm:git:https://github.com/sarath0750/java.git</connection>
-  </scm>
-=======
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- Project Coordinates -->
     <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.swiffylabs</groupId>
+    <artifactId>test</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
+    <name>Test Application</name>
+    <description>A simple Spring Boot application</description>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.6</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>2.7.6</version> <!-- Parent version -->
+        <relativePath /> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.swiffylabs</groupId>
-    <artifactId>test</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>test</name>
-    <description>Demo project for Spring Boot</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
-
-    <!-- Add the distributionManagement section here -->
-    <distributionManagement>
-        <repository>
-            <id>maven-release</id> <!-- This should match the ID you used in settings.xml -->
-            <url>http://localhost:8081/repository/maven-release/</url>
-        </repository>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>2.7.6</version> <!-- Spring Boot starter web version -->
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <version>2.7.6</version> <!-- Spring Boot starter test version -->
             <scope>test</scope>
         </dependency>
     </dependencies>
 
+    <!-- Build Configuration -->
     <build>
         <plugins>
+            <!-- Spring Boot Maven Plugin to build the application as a runnable jar -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!-- Maven Compiler Plugin to specify Java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
->>>>>>> 2df6fd6a88d9db47a32522fb3b9d527bbedd3882
-</project>
->
 
+    <!-- Distribution Management for release artifact deployment -->
+    <distributionManagement>
+        <repository>
+            <id>nexus-release</id>
+            <name>maven-release</name>
+            <url>http://localhost:8081/repository/maven-release/</url>
+        </repository>
+    </distributionManagement>
+
+</project>
 
