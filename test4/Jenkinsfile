@@ -1,48 +1,44 @@
 pipeline {
     agent any
 
+    environment {
+        // Nexus repository details
+        NEXUS_REPO = 'http://<NEXUS_SERVER_IP>:8081/repository/maven-releases/'
+        NEXUS_CREDENTIALS = '2ce6ed4c-078a-43c6-bc44-284a62099d4f'  // Nexus credentials ID
+        MAVEN_HOME = 'java/test4/mnvw'  // Path to your Maven installation
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                echo 'Checking out code from the repository...'
-                checkout scm
+                git branch: 'main', credentialsId: '411cc845-da9b-4a17-9da2-af1957abe634', url: 'https://github.com/sarath0750/java.git'
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                echo 'Building the project...'
-                sh './test4/mvnw clean install'  // Adjusted path to mvnw in the test4 folder
+                script {
+                    sh "'${MAVEN_HOME}/bin/mvn' clean install"
+                }
             }
         }
 
-        stage('Test') {
+        stage('Push to Nexus Repository') {
             steps {
-                echo 'Running tests...'
-                sh './test4/mvnw test'  // Adjusted path to mvnw for running tests
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                // Add your deployment steps here
+                script {
+                    // Upload to Nexus
+                    sh "'${MAVEN_HOME}/bin/mvn' deploy -DaltDeploymentRepository=nexus-releases::default::${NEXUS_REPO}"
+                }
             }
         }
     }
 
     post {
-        always {
-            echo 'Cleaning up...'
-        }
-
         success {
-            echo 'Build succeeded!'
+            echo 'Pipeline completed successfully and artifact pushed to Nexus!'
         }
-
         failure {
-            echo 'Build failed!'
+            echo 'Pipeline failed. Check the logs above for errors.'
         }
     }
 }
-
