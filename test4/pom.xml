@@ -2,59 +2,90 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
+  <groupId>com.swiffylabs</groupId>
+  <artifactId>java-app</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
 
-    <!-- Define project coordinates -->
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.acme</groupId> <!-- Group ID -->
-    <artifactId>awesome-project</artifactId> <!-- Artifact ID -->
-    <version>1.0.0-release</version> <!-- Version -->
-    <packaging>jar</packaging>
+  <name>Java Application</name>
+  <description>A simple Spring Boot Java application</description>
 
-    <!-- Optional project description -->
-    <name>Awesome Project</name>
-    <description>A project that does awesome things</description>
+  <properties>
+    <java.version>17</java.version>  <!-- Java version -->
+    <spring-boot.version>2.7.6</spring-boot.version> <!-- Spring Boot version -->
+  </properties>
 
-    <!-- Define repositories for dependencies -->
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo.maven.apache.org/maven2</url>
-        </repository>
-    </repositories>
+  <dependencies>
+    <!-- Spring Boot Starter Web (for building web applications) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
 
-    <!-- Define project dependencies -->
-    <dependencies>
-        <!-- Example dependency -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>5.3.0</version>
-        </dependency>
-    </dependencies>
+    <!-- Spring Boot Starter Test (for testing support) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-    <!-- Build configurations and plugins -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- Spring Boot Starter Data JPA (for database access) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
 
-    <!-- Optional distribution management (for deploying to a repository) -->
-    <distributionManagement>
-        <repository>
-            <id>maven-releases</id>
-             <url>http://172.17.0.2:8081/repository/maven-releases/</url>
-        </repository>
-    </distributionManagement>
+    <!-- H2 Database (in-memory database for development and testing) -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <scope>runtime</scope>
+    </dependency>
 
+    <!-- Spring Boot Starter Security (optional, for adding security features) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Spring Boot Maven Plugin for building and running the application -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>${spring-boot.version}</version>
+      </plugin>
+
+      <!-- Maven plugin for compiling Java code -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>nexus-release</id>
+      <url>http://192.168.2.255:8081/repository/maven-releases/</url>
+    </repository>
+  </distributionManagement>
+
+  <scm>
+    <url>https://github.com/sarath0750/java.git</url>
+    <connection>scm:git:https://github.com/sarath0750/java.git</connection>
+  </scm>
 </project>
+>
+
 
