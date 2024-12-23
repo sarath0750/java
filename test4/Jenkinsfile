@@ -1,54 +1,44 @@
 pipeline {
     agent any
 
+    environment {
+        // Nexus repository details
+        NEXUS_REPO = 'http://<NEXUS_SERVER_IP>:8081/repository/maven-releases/'
+        NEXUS_CREDENTIALS = '2ce6ed4c-078a-43c6-bc44-284a62099d4f'  // Nexus credentials ID
+        MAVEN_HOME = 'java/test4/mnvw'  // Path to your Maven installation
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Checkout Code') {
             steps {
-                checkout scm
+                git 'https://github.com/sarath0750/java.git'
             }
         }
 
-        stage('Build') {
+        stage('Build and Test') {
             steps {
-                echo 'Building the project...'
-                sh './mvnw clean install'
+                script {
+                    sh "'${MAVEN_HOME}/bin/mvn' clean install"
+                }
             }
         }
 
-        stage('Test') {
+        stage('Push to Nexus Repository') {
             steps {
-                echo 'Running tests...'
-                sh './mvnw test'
-            }
-        }
-
-        stage('Upload to Nexus') {
-            steps {
-                echo 'Uploading to Nexus...'
-                sh './mvnw deploy -DskipTests'
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                echo 'Deploying to Kubernetes...'
-                sh '''
-                kubectl apply -f k8s/deployment.yaml
-                kubectl apply -f k8s/service.yaml
-                '''
+                script {
+                    // Upload to Nexus
+                    sh "'${MAVEN_HOME}/bin/mvn' deploy -DaltDeploymentRepository=nexus-releases::default::${NEXUS_REPO}"
+                }
             }
         }
     }
 
     post {
-        always {
-            echo 'Cleaning up workspace...'
-        }
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'Pipeline completed successfully and artifact pushed to Nexus!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline failed. Check the logs above for errors.'
         }
     }
 }
