@@ -10,23 +10,35 @@ pipeline {
 
         stage('Build') {
             steps {
+                echo 'Building the project...'
                 sh './mvnw clean install'
             }
         }
 
         stage('Test') {
             steps {
+                echo 'Running tests...'
                 sh './mvnw test'
             }
         }
 
         stage('Upload to Nexus') {
             steps {
-                sh './mvnw deploy'
+                echo 'Uploading to Nexus...'
+                sh './mvnw deploy -DskipTests'
             }
         }
 
-       
+        stage('Deploy to Kubernetes') {
+            steps {
+                echo 'Deploying to Kubernetes...'
+                sh '''
+                kubectl apply -f k8s/deployment.yaml
+                kubectl apply -f k8s/service.yaml
+                '''
+            }
+        }
+    }
 
     post {
         always {
