@@ -26,9 +26,20 @@ pipeline {
             }
         }
 
+        stage('Upload to Nexus') {
+            steps {
+                echo 'Uploading artifacts to Nexus...'
+                dir('test4') {
+                    sh './mvnw deploy'
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
-                echo 'Deploying the project...'
+                echo 'Deploying the project to Kubernetes...'
+                // Add your deployment commands here
+                sh 'kubectl apply -f deployment.yaml'
             }
         }
     }
