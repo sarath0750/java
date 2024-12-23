@@ -10,49 +10,43 @@ pipeline {
 
         stage('Build') {
             steps {
-                echo 'Building the project...'
-                dir('test4') {
-                    sh './mvnw clean install'
-                }
+                sh './mvnw clean install'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
-                dir('test4') {
-                    sh './mvnw test'
-                }
+                sh './mvnw test'
             }
         }
 
         stage('Upload to Nexus') {
             steps {
-                echo 'Uploading artifacts to Nexus...'
-                dir('test4') {
-                    sh './mvnw deploy'
-                }
+                sh './mvnw deploy'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy to Kubernetes') {
             steps {
-                echo 'Deploying the project to Kubernetes...'
-                // Add your deployment commands here
-                sh 'kubectl apply -f deployment.yaml'
+                script {
+                    sh '''
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
+                    '''
+                }
             }
         }
     }
 
     post {
         always {
-            echo 'Cleaning up...'
+            echo 'Cleaning up workspace...'
         }
         success {
-            echo 'Build successful!'
+            echo 'Pipeline completed successfully!'
         }
         failure {
-            echo 'Build failed!'
+            echo 'Pipeline failed!'
         }
     }
 }
